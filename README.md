@@ -45,3 +45,51 @@ HTTP请求
 在实现了服务器接口后，就可以对其进行访问。如简单的直接使用浏览器输入接口链接（http方式）：http://localhost/index.php?c=examples&a=getWelcome&p=http&f=json，得到的结果如下：
 
 {"status":"OK","data":{"content":"Hello Wolrd","name":"nobody"},"error":"","debug":[]}
+
+
+框架设计
+服务器接口开发框架
+
+由于对服务端接口开发框架已经有编写了文档进行详细说明，这里不再重复。但会挑一点值得关注和了解的点来进行说明。毕竟，当你决定使用第三方的框架或者SDK包时，应该了解其底层和原理，以便更好地利用和完善。同时不要绝对相信第三方，因为代码是人写，我们连自己的代码都不能完全相信，更不应该完全相信和依赖别人的代码。
+统一入口
+
+在开发框架部署好后，可以看到统一入口文件index.php。这里演示了加载和使用开发框架是如此的方便，如同很多其他开源框架一样。
+
+<?php 
+// 加载框架公共入口类文件 
+require(dirname(__FILE__).'/ZenWebService.class.php'); 
+
+//实例化一个Web Server应用实例 
+ZenWebService::run(); 
+?>
+
+参数规则
+
+这里的参数规则参考自很多框架（如Yii）对参数的处理方式。同样，为了减少后端开发人员对参数获取的关注，且加强对参数的过滤、检测和处理，这里引入了参数规则。这样的话，可以做到一条规则，多处使用。开发人员可以说不用任何开发量，只需要简单配置参数的规则，便可通过$this->name这样的方式获取客户端提供的参数。
+
+当需要定义参数规则时，只需要在Controller类下重定义getRules()即可。如下：
+
+    protected function getRules()
+    {
+        return array(
+            '*' => array(
+                'name' => array('type' => 'string',
+                                'default' => 'nobody',
+                                'require' => false,
+                                ),
+            ),
+            'getInfo' => array(
+                'sex' => array('type' => 'string',
+                                'default' => 'unkonw',
+                                'require' => false,
+                                ),
+                ),
+            );
+    }
+    
+    上面定义了两条参数规则，分别从上到下是姓名和性别。并且姓名name应用于该Controller下的全部接口，但性别sex只应用于getInfo接口。这两个参数都是非必须参数，且有默认值。
+
+我想，参数规则应该是这个开发框架中比较有意思的一个地方。
+接口验证
+
+对于接口身份验证这一块，由于各项目的需求和约定不同，所以对于接口验证，各项目可以根据需求去实现。或者配置是否需要使用appKey和token。
