@@ -19,25 +19,25 @@ zenphpWS3是自主开发、利用PHP实现并基于phprpc的Web Services轻量�
 
 在部署好zenphpWS3开发框架后，添加新的接口类如：./services/Controllers/ExamplesController.class.php ，并实现了获取欢迎语的getWelcome接口，同时为该接口定义了非必须的类型为字符串的名字参数，默认值为nobody，然后返回结果。也就是服务器接口开发主要工作在于：参数规则定义+接口业务实现。
 
-class&nbsp;ExamplesController&nbsp;extends&nbsp;Controller
+class ExamplesController extends Controller
 {
-&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;getRules()
-&nbsp;&nbsp;&nbsp;&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;array(
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'getWelcome'&nbsp;=>&nbsp;array(
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'name'&nbsp;=>&nbsp;array('type'&nbsp;=>&nbsp;'string',
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'default'&nbsp;=>&nbsp;'nobody',
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'require'&nbsp;=>&nbsp;false,
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);
-&nbsp;&nbsp;&nbsp;&nbsp;}
+    public function getRules()
+    {
+        return array(
+            'getWelcome' => array(
+                'name' => array('type' => 'string',
+                'default' => 'nobody',
+                'require' => false,
+                ),
+            ),
+        );
+    }
 
-&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;getWelcome()
-&nbsp;&nbsp;&nbsp;&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this->succeed();
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;array('content'&nbsp;=>&nbsp;'Hello&nbsp;Wolrd',&nbsp;'name'&nbsp;=>&nbsp;$this->name);
-&nbsp;&nbsp;&nbsp;&nbsp;}
+    public function getWelcome()
+    {
+        $this->succeed();
+        return array('content' => 'Hello Wolrd', 'name' => $this->name);
+    }
 }
 
 HTTP请求
